@@ -16,11 +16,13 @@ namespace LibreOfficeLibrary
 		/// <summary>
 		/// Compare two documents with LibreOffice
 		/// </summary>
-		/// <param name="filePath">The path of the document that will be compared</param>
-		/// <param name="fileToComparePath">The path of the document with which the document is compared</param>
-		/// <param name="destinationFilePath">The path of the target document for the comparison</param>
-		public void Compare(string filePath, string fileToComparePath, string destinationFilePath)
+		public void Compare(string filePath, string fileToComparePath, string targetFilePath)
 		{
+			if (!File.Exists(filePath) || !File.Exists(fileToComparePath))
+				throw new ArgumentException("One of files doesn't exist");
+			if (File.Exists(targetFilePath))
+				throw new ArgumentException("The target file exists");
+
 			string tempDirPath = Path.GetTempPath();
 			var tempFilePath = Path.Combine(tempDirPath, Path.GetRandomFileName());
 			var tempFileToComparePath = Path.Combine(tempDirPath, Path.GetRandomFileName());
@@ -35,9 +37,10 @@ namespace LibreOfficeLibrary
 			if (!worker.Join(TimeSpan.FromSeconds(TimeForWaiting)))
 			{
 				worker.Abort();
+				throw new ConvertDocumentException("LibreOffice process didn't respond within the expected time");
 			}
 
-			File.Move(tempFilePath, destinationFilePath);
+			File.Move(tempFilePath, targetFilePath);
 		}
 
 		private void DoCompare(string filePath, string fileToComparePath)
@@ -51,8 +54,18 @@ namespace LibreOfficeLibrary
 					Arguments = $"macro:///LibreOfficeLibrary.Module1.CompareDocuments(\"{filePath}\",\"{fileToComparePath}\")"
 				}
 			};
-			process.Start();
-			process.WaitForExit();
+			try
+			{
+				using (process)
+				{
+					process.Start();
+					process.WaitForExit();
+				}
+			}
+			finally
+			{
+				process.Kill();
+			}
 		}
 	}
 }

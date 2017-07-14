@@ -16,10 +16,13 @@ namespace LibreOfficeLibrary
 		/// <summary>
 		/// Convert document to PDF format
 		/// </summary>
-		/// <param name="filePath">The path of the document that will be converted</param>
-		/// <param name="targetPath">The path of the target document for the convertion</param>
 		public void ConvertToPdf(string filePath, string targetPath)
 		{
+			if (!File.Exists(filePath))
+				throw new ArgumentException("The file doesn't exist");
+			if (File.Exists(targetPath))
+				throw new ArgumentException("The target file exists");
+
 			var directoryName = Path.GetDirectoryName(filePath) ?? string.Empty;
 			var tempOutputFilePath = Path.Combine(directoryName, Path.GetFileNameWithoutExtension(filePath) + ".pdf");
 
@@ -43,8 +46,7 @@ namespace LibreOfficeLibrary
 			if (!worker.Join(TimeSpan.FromSeconds(TimeForWaiting)))
 			{
 				worker.Abort();
-
-				return;
+				throw new ConvertDocumentException("LibreOffice process didn't respond within the expected time");
 			}
 
 			if (pathContainsSpaces)
