@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Module1" script:language="StarBasic">sub CompareDocuments(path1, path2)
+
+dim sUrl as string
+dim oDoc as object, oDocFrame as object, dispatcher as object
+dim PropVal(0) as new com.sun.star.beans.PropertyValue
+dim args(0) as new com.sun.star.beans.PropertyValue
+
+sUrl = convertToUrl(path1)
+
+oDoc = stardesktop.LoadComponentFromURL(sUrl, &quot;_blank&quot;, 0, Array())
+
+oDocFrame = oDoc.CurrentController.Frame
+dispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
+
+PropVal(0).Name = &quot;URL&quot;
+PropVal(0).Value = convertToUrl(path2)
+
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:CompareDocuments&quot;, &quot;&quot;, 0, PropVal())
+
+args(0).Name = &quot;ShowTrackedChanges&quot;
+args(0).Value = true
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:ShowTrackedChanges&quot;, &quot;&quot;, 0, args())
+
+&apos;dispatcher.executeDispatch(oDocFrame, &quot;.uno:AcceptChanges&quot;, &quot;&quot;, 0, array())&apos;
+
+rem ----------------------------------------------------------------------
+dim args3(0) as new com.sun.star.beans.PropertyValue
+args3(0).Name = &quot;AcceptTrackedChanges&quot;
+args3(0).Value = false
+
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:AcceptTrackedChanges&quot;, &quot;&quot;, 0, args3())
+
+Dim aURL As New com.sun.star.util.URL
+Dim args4(0) As New com.sun.star.beans.PropertyValue
+
+args4(0).Name = &quot;ToPoint&quot;
+args4(0).Value = &quot;$F$1&quot;
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:GoToCell&quot;, &quot;&quot;, 0, args4())
+rem ----------------------------------------------------------------------
+
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:Save&quot;, &quot;&quot;, 0, Array())
+
+ThisComponent.close(True)
+
+
+
+end sub
+</script:module>
