@@ -11,8 +11,6 @@ namespace LibreOfficeLibrary
 {
 	public class DocumentConverter
 	{
-		private const int TimeForWaiting = 60;
-
 		/// <summary>
 		/// Convert document to PDF format
 		/// </summary>
@@ -23,67 +21,17 @@ namespace LibreOfficeLibrary
 			if (File.Exists(targetPath))
 				throw new ArgumentException("The target file exists");
 
-			var directoryName = Path.GetDirectoryName(filePath) ?? string.Empty;
-			var tempOutputFilePath = Path.Combine(directoryName, Path.GetFileNameWithoutExtension(filePath) + ".pdf");
+			var tempDirPath = Path.GetTempPath();
+			var tempFilePath = Path.Combine(tempDirPath, Path.GetRandomFileName());
+			var tempOutputFilePath = Path.Combine(tempFilePath, Path.GetFileNameWithoutExtension(tempFilePath) + ".pdf");
 
-			var pathContainsSpaces = false;
-			var oldPath = filePath;
-			if (filePath.Contains(" "))
-			{
-				string newPath = Path.Combine(directoryName, Path.GetRandomFileName());
-				File.Move(filePath, newPath);
-				pathContainsSpaces = true;
-				filePath = newPath;
-			}
+			File.Copy(filePath, tempFilePath);
 
-			filePath = GetRelativePath(directoryName, filePath);
-			directoryName = GetRelativePath(Path.Combine(Directory.GetCurrentDirectory(), "temp.temp"), directoryName);
-
-			var worker = new Thread(() => DoConvert(directoryName, filePath));
-			worker.IsBackground = true;
-			worker.Start();
-
-			if (!worker.Join(TimeSpan.FromSeconds(TimeForWaiting)))
-			{
-				worker.Abort();
-				throw new ConvertDocumentException("LibreOffice process didn't respond within the expected time");
-			}
-
-			if (pathContainsSpaces)
-			{
-				tempOutputFilePath = Path.Combine(directoryName, Path.GetFileNameWithoutExtension(filePath) + ".pdf");
-				File.Move(filePath, oldPath);
-			}
+			var worker = new LibreOfficeWorker();
+			worker.DoWork($"/C -headless -writer -convert-to pdf -outdir {tempDirPath} {tempFilePath}");
 
 			if (File.Exists(tempOutputFilePath))
 				File.Move(tempOutputFilePath, targetPath);
-		}
-
-		private void DoConvert(string directoryName, string filePath)
-		{
-			Process process = new Process
-			{
-				StartInfo = new ProcessStartInfo
-				{
-					WindowStyle = ProcessWindowStyle.Hidden,
-					FileName = "soffice.exe",
-					Arguments = $"/C -headless -writer -convert-to pdf -outdir {directoryName} {filePath}"
-				}
-			};
-			process.Start();
-			process.WaitForExit();
-		}
-
-		private static string GetRelativePath(string directoryPath, string filePath)
-		{
-			var absDirPath = Path.GetFullPath(directoryPath);
-			var absFilePath = Path.GetFullPath(filePath);
-			var directory = new Uri(absDirPath);
-			var file = new Uri(absFilePath);
-			return Uri.UnescapeDataString(directory.MakeRelativeUri(file)
-				.ToString()
-				.Replace('/', Path.DirectorySeparatorChar)
-			);
 		}
 	}
 }
