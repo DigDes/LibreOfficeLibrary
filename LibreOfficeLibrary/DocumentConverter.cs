@@ -16,8 +16,8 @@ namespace LibreOfficeLibrary
 		/// <summary>
 		/// Convert document to PDF format
 		/// </summary>
-		/// <param name="filePath">The absolute path of the document that will be converted</param>
-		/// <param name="targetPath">The absolute path of the target document for the convertion</param>
+		/// <param name="filePath">The path of the document that will be converted</param>
+		/// <param name="targetPath">The path of the target document for the convertion</param>
 		public void ConvertToPdf(string filePath, string targetPath)
 		{
 			var directoryName = Path.GetDirectoryName(filePath) ?? string.Empty;

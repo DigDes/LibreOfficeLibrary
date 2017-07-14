@@ -16,29 +16,28 @@ namespace LibreOfficeLibrary
 		/// <summary>
 		/// Compare two documents with LibreOffice
 		/// </summary>
-		/// <param name="filePath">The absolute path of the document that will be compared</param>
-		/// <param name="fileToComparePath">The absolute path of the document with which the document is compared</param>
-		/// <param name="destinationFilePath">The absolute path of the target document for the comparison</param>
+		/// <param name="filePath">The path of the document that will be compared</param>
+		/// <param name="fileToComparePath">The path of the document with which the document is compared</param>
+		/// <param name="destinationFilePath">The path of the target document for the comparison</param>
 		public void Compare(string filePath, string fileToComparePath, string destinationFilePath)
 		{
-			File.Copy(filePath, destinationFilePath, true);
+			string tempDirPath = Path.GetTempPath();
+			var tempFilePath = Path.Combine(tempDirPath, Path.GetRandomFileName());
+			var tempFileToComparePath = Path.Combine(tempDirPath, Path.GetRandomFileName());
 
-			try
-			{
-				var worker = new Thread(() => DoCompare(destinationFilePath, fileToComparePath));
-				worker.IsBackground = true;
-				worker.Start();
+			File.Copy(filePath, tempFilePath);
+			File.Copy(tempFilePath, tempFileToComparePath);
 
-				if (!worker.Join(TimeSpan.FromSeconds(TimeForWaiting)))
-				{
-					worker.Abort();
-				}
-			}
-			finally
+			var worker = new Thread(() => DoCompare(tempFilePath, tempFileToComparePath));
+			worker.IsBackground = true;
+			worker.Start();
+
+			if (!worker.Join(TimeSpan.FromSeconds(TimeForWaiting)))
 			{
-				if (File.Exists(destinationFilePath))
-					File.Delete(destinationFilePath);
+				worker.Abort();
 			}
+
+			File.Move(tempFilePath, destinationFilePath);
 		}
 
 		private void DoCompare(string filePath, string fileToComparePath)
