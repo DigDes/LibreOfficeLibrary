@@ -10,40 +10,40 @@ namespace LibreOfficeLibrary
 	public class LibreOfficeWorker
 	{
 		private const int TimeForWaiting = 60;
+		private class Worker
+		{
+			public Worker(object parameterObject)
+			{
+				Process = new Process
+				{
+					StartInfo = new ProcessStartInfo
+					{
+						WindowStyle = ProcessWindowStyle.Hidden,
+						FileName = "soffice.exe",
+						Arguments = (string)parameterObject
+					}
+				};
+			}
+			public void DoWork()
+			{
+				Process.Start();
+				Process.WaitForExit();
+			}
+			public Process Process { get; }
+		}
 		public void DoWork(string argumentString)
 		{
-			var worker = new Thread(DoWorkInThread);
-			worker.IsBackground = true;
-			worker.Start(argumentString);
+			var worker = new Worker(argumentString);
+			var thread = new Thread(worker.DoWork);
+			thread.IsBackground = true;
+			thread.Start(argumentString);
 
-			if (!worker.Join(TimeSpan.FromSeconds(TimeForWaiting)))
+			if (!thread.Join(TimeSpan.FromSeconds(TimeForWaiting)))
 			{
-				worker.Abort();
+				worker.Process.Kill();
+				worker.Process.Dispose();
+				thread.Abort();
 				throw new ConvertDocumentException("LibreOffice process didn't respond within the expected time");
-			}
-		}
-		private void DoWorkInThread(object parameterObject)
-		{
-			var process = new Process
-			{
-				StartInfo = new ProcessStartInfo
-				{
-					WindowStyle = ProcessWindowStyle.Hidden,
-					FileName = "soffice.exe",
-					Arguments = (string)parameterObject
-				}
-			};
-			try
-			{
-				using (process)
-				{
-					process.Start();
-					process.WaitForExit();
-				}
-			}
-			finally
-			{
-				process.Kill();
 			}
 		}
 	}
