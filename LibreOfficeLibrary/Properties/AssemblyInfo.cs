@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-#if !NETSTANDARD2_0
-[assembly: AssemblyTitle("LibreOfficeLibrary")]
-#endif
-[assembly: AssemblyDescription("fff")]
+//#if !NETSTANDARD2_0 && !NETCOREAPP2_0
+//[assembly: AssemblyTitle("LibreOfficeLibrary")]
+//#endif
+//[assembly: AssemblyDescription("Library for operations with documents with LibreOffice")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Digital Design")]
 [assembly: AssemblyProduct("LibreOfficeLibrary")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCopyright("© Digital Design")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -34,7 +34,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-#if !NETSTANDARD2_0
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
-#endif
+
+//[assembly: AssemblyVersion("1.0.0.0")]
+//[assembly: AssemblyFileVersion("1.0.0.0")]
+

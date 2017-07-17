@@ -1,13 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <TargetFrameworks>netstandard2.0;;netcoreapp2.0;net461</TargetFrameworks>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <FileVersion>2.0.0.0</FileVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <Version>1.0.0.0</Version>
+	<Company>Digital Design</Company>
+	<Description>Library for operations with documents with LibreOffice</Description>
   </PropertyGroup>
 
 </Project>
