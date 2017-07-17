@@ -26,8 +26,12 @@ namespace LibreOfficeLibrary
 			}
 			public void DoWork()
 			{
-				Process.Start();
-				Process.WaitForExit();
+				using (Process)
+				{
+					Process.Start();
+					Process.WaitForExit();
+					Process.Kill();
+				}
 			}
 			public Process Process { get; }
 		}

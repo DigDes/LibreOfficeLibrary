@@ -16,8 +16,10 @@ namespace LibreOfficeLibrary
 		/// </summary>
 		public void Compare(string filePath, string fileToComparePath, string targetFilePath)
 		{
-			if (!File.Exists(filePath) || !File.Exists(fileToComparePath))
-				throw new ArgumentException("One of files doesn't exist");
+			if (!File.Exists(filePath))
+				throw new ArgumentException("File for comparison doesn't exist");
+			if (!File.Exists(fileToComparePath))
+				throw new ArgumentException("File to compare doesn't exist");
 			if (File.Exists(targetFilePath))
 				throw new ArgumentException("The target file exists");
 
