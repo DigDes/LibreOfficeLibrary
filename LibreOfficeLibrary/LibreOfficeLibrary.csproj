@@ -1,16 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;;netcoreapp2.0;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;;net461</TargetFrameworks>
     <AssemblyVersion>1.0.0.0</AssemblyVersion>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.0.0</Version>
+    <Version>1.0.3</Version>
 	<Company>Digital Design</Company>
 	<Description>Library for operations with documents with LibreOffice</Description>
+	<PackageProjectUrl>https://github.com/DigDes/LibreOfficeLibrary</PackageProjectUrl>
+	<Copyright>© Digital Design</Copyright>
+	<Title>LibreOfficeLibrary</Title>
+	<Authors>Digital Design</Authors>
   </PropertyGroup>
 
 </Project>

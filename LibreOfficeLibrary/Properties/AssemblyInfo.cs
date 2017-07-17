@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Digital Design")]
 [assembly: AssemblyProduct("LibreOfficeLibrary")]
-[assembly: AssemblyCopyright("© Digital Design")]
+//[assembly: AssemblyCopyright("© Digital Design")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

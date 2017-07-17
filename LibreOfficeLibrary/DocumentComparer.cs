@@ -23,12 +23,12 @@ namespace LibreOfficeLibrary
 			if (File.Exists(targetFilePath))
 				throw new ArgumentException("The target file exists");
 
-			var tempDirPath = Path.GetTempPath();
+			var tempDirPath = Path.GetTempPath().TrimEnd(Path.DirectorySeparatorChar);
 			var tempFilePath = Path.Combine(tempDirPath, Path.GetRandomFileName());
 			var tempFileToComparePath = Path.Combine(tempDirPath, Path.GetRandomFileName());
 
 			File.Copy(filePath, tempFilePath);
-			File.Copy(tempFilePath, tempFileToComparePath);
+			File.Copy(fileToComparePath, tempFileToComparePath);
 
 			var worker = new LibreOfficeWorker();
 			worker.DoWork($"macro:///LibreOfficeLibrary.Module1.CompareDocuments(\"{tempFilePath}\",\"{tempFileToComparePath}\")");

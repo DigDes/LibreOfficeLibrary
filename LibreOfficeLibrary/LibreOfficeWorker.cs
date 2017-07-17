@@ -30,7 +30,6 @@ namespace LibreOfficeLibrary
 				{
 					Process.Start();
 					Process.WaitForExit();
-					Process.Kill();
 				}
 			}
 			public Process Process { get; }
@@ -40,7 +39,7 @@ namespace LibreOfficeLibrary
 			var worker = new Worker(argumentString);
 			var thread = new Thread(worker.DoWork);
 			thread.IsBackground = true;
-			thread.Start(argumentString);
+			thread.Start();
 
 			if (!thread.Join(TimeSpan.FromSeconds(TimeForWaiting)))
 			{
