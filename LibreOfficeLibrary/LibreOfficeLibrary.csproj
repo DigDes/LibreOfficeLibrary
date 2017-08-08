@@ -8,13 +8,13 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.3</Version>
-	<Company>Digital Design</Company>
-	<Description>Library for operations with documents with LibreOffice</Description>
-	<PackageProjectUrl>https://github.com/DigDes/LibreOfficeLibrary</PackageProjectUrl>
-	<Copyright>© Digital Design</Copyright>
-	<Title>LibreOfficeLibrary</Title>
-	<Authors>Digital Design</Authors>
+    <Version>1.0.5</Version>
+    <Company>Digital Design</Company>
+    <Description>Library for operations with documents with LibreOffice</Description>
+    <PackageProjectUrl>https://github.com/DigDes/LibreOfficeLibrary</PackageProjectUrl>
+    <Copyright>© Digital Design</Copyright>
+    <Title>LibreOfficeLibrary</Title>
+    <Authors>Digital Design</Authors>
   </PropertyGroup>
 
 </Project>

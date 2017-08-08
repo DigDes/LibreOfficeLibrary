@@ -44,7 +44,38 @@ dispatcher.executeDispatch(oDocFrame, &quot;.uno:Save&quot;, &quot;&quot;, 0, Ar
 
 ThisComponent.close(True)
 
-
-
 end sub
+
+
+
+
+sub AcceptAllChanges(path1)
+
+dim sUrl as string
+dim oDoc as object, oDocFrame as object, dispatcher as object
+
+sUrl = convertToUrl(path1)
+
+oDoc = stardesktop.LoadComponentFromURL(sUrl, &quot;_blank&quot;, 0, Array())
+
+oDocFrame = oDoc.CurrentController.Frame
+dispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
+
+rem ----------------------------------------------------------------------
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:SelectAll&quot;, &quot;&quot;, 0, Array())
+
+rem ----------------------------------------------------------------------
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:AcceptTrackedChange&quot;, &quot;&quot;, 0, Array())
+
+Dim args4(0) As New com.sun.star.beans.PropertyValue
+args4(0).Name = &quot;ToPoint&quot;
+args4(0).Value = &quot;$F$1&quot;
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:GoToCell&quot;, &quot;&quot;, 0, args4())
+rem ----------------------------------------------------------------------
+
+dispatcher.executeDispatch(oDocFrame, &quot;.uno:Save&quot;, &quot;&quot;, 0, Array())
+
+ThisComponent.close(True)
+end sub
+
 </script:module>
