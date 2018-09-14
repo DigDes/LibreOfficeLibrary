@@ -9,7 +9,7 @@ namespace LibreOfficeLibrary
 {
 	public class LibreOfficeWorker
 	{
-		private const int TimeForWaiting = 60;
+		private const int TimeForWaiting = 600;
 		private class Worker
 		{
 			public Worker(object parameterObject)
