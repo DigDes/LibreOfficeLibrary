@@ -38,7 +38,6 @@ namespace LibreOfficeLibrary
 
 			File.Copy(filePath, tempFilePath);
 
-
 			var worker = new LibreOfficeWorker();
 			worker.DoWork($"/C -headless -writer -convert-to pdf -outdir \"{tempDirPath}\" \"{tempFilePath}\" \"-env:UserInstallation=file:///{profilePath}/\"");
 
