@@ -8,7 +8,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <FileVersion>1.0.0.0</FileVersion>
-    <Version>1.0.6</Version>
+    <Version>1.0.7</Version>
     <Company>Digital Design</Company>
     <Description>Library for operations with documents with LibreOffice</Description>
     <PackageProjectUrl>https://github.com/DigDes/LibreOfficeLibrary</PackageProjectUrl>

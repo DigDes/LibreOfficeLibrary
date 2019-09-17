@@ -14,7 +14,7 @@ namespace LibreOfficeLibrary
 		/// <summary>
 		/// Convert document to PDF format
 		/// </summary>
-		public void ConvertToPdf(string filePath, string targetPath, string profileLocation = null)
+		public void ConvertToPdf(string filePath, string targetPath, string profileLocation = null, int? timeForWaiting = null)
 		{
 			if (!File.Exists(filePath))
 				throw new ArgumentException("The file doesn't exist");
@@ -39,7 +39,7 @@ namespace LibreOfficeLibrary
 			File.Copy(filePath, tempFilePath);
 
 			var worker = new LibreOfficeWorker();
-			worker.DoWork($"/C -headless -writer -convert-to pdf -outdir \"{tempDirPath}\" \"{tempFilePath}\" \"-env:UserInstallation=file:///{profilePath}/\"");
+			worker.DoWork($"/C -headless -writer -convert-to pdf -outdir \"{tempDirPath}\" \"{tempFilePath}\" \"-env:UserInstallation=file:///{profilePath}/\"", timeForWaiting);
 
 			if (File.Exists(tempOutputFilePath))
 				File.Move(tempOutputFilePath, targetPath);

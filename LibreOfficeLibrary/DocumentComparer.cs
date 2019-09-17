@@ -14,7 +14,7 @@ namespace LibreOfficeLibrary
 		/// <summary>
 		/// Compare two documents with LibreOffice
 		/// </summary>
-		public void Compare(string filePath, string fileToComparePath, string targetFilePath)
+		public void Compare(string filePath, string fileToComparePath, string targetFilePath, int? timeForWaiting = null)
 		{
 			if (!File.Exists(filePath))
 				throw new ArgumentException("File for comparison doesn't exist");
@@ -31,7 +31,7 @@ namespace LibreOfficeLibrary
 			File.Copy(fileToComparePath, tempFileToComparePath);
 
 			var worker = new LibreOfficeWorker();
-			worker.DoWork($"macro:///LibreOfficeLibrary.Module1.CompareDocuments(\"{tempFilePath}\",\"{tempFileToComparePath}\")");
+			worker.DoWork($"macro:///LibreOfficeLibrary.Module1.CompareDocuments(\"{tempFilePath}\",\"{tempFileToComparePath}\")", timeForWaiting);
 
 			File.Move(tempFilePath, targetFilePath);
 		}
